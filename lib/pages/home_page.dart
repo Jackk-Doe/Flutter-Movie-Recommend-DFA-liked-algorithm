@@ -18,8 +18,12 @@ class HomePage extends StatelessWidget {
           children: [
             const Text('Home Page', style: TextStyle(fontSize: 44)),
             const SizedBox(height: 30),
-
-            CustomElevatedButton(onPressfunc: _startGetRecommendMovie, buttonText: "START")
+            
+            CustomElevatedButton(
+              onPressfunc: _startGetRecommendMovie,
+              buttonText: "START",
+              buttonColor: Colors.blue,
+            ),
           ],
         ),
       ),
