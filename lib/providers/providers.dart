@@ -1,1 +1,1 @@
-export './appStateProvider.dart';
+export 'app_state_provider.dart';
