@@ -11,9 +11,15 @@ class AppStateProvider extends ChangeNotifier {
   bool _inHomePage = false;
   bool _isError = false;
 
+  String _errorMessageDefault = "Unknown Error founds";
+  String _errorMessage = "Unknown Error founds";
+
   bool get isValidateInternetConnection => _validatedInternetConnection;
   bool get isValidateTmdbApiKey => _validatedTmdbApiKey;
   bool get beInHomePage => _inHomePage;
+  bool get hasError => _isError;
+
+  String get errorMessage => _errorMessage;
 
 
   /// Use this function to check Internet connection, then update states
@@ -24,9 +30,11 @@ class AppStateProvider extends ChangeNotifier {
         _validatedInternetConnection = true;
       } else {
         _isError = true;
+        _errorMessage = "Error : No Internet connection";
       }
     } catch (_) {
       _isError = true;
+      _errorMessage = "Error : Problem with Internet connection";
     }
 
     notifyListeners();
@@ -42,9 +50,11 @@ class AppStateProvider extends ChangeNotifier {
         _inHomePage = true;
       } else {
         _isError = true;
+        _errorMessage = "Error : TMDB API key problem found";
       }
     } catch (_) {
       _isError = true;
+      _errorMessage = "Error : Problem with API key validation process";
     }
 
     notifyListeners();
