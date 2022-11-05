@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import '../widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
+
+  static MaterialPage page() {
+    return const MaterialPage(child: HomePage());
+  }
+
   const HomePage({super.key});
 
   void _startGetRecommendMovie() {
