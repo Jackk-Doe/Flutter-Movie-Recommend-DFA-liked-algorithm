@@ -29,11 +29,19 @@ class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDe
       key: navigatorKey,
       onPopPage: _handlePopPage,
       pages: [
+
+        /// Splash page
         if (appStateProvider.isValidateInternetConnection == false ||
             appStateProvider.isValidateTmdbApiKey == false)
           SplashPage.page(),
 
+        /// Home page
         if (appStateProvider.beInHomePage) HomePage.page(),
+
+        /// Error page
+        if (appStateProvider.hasError) ErrorPage.page(appStateProvider.errorMessage, () {
+          // TODO : Implement Error button function
+        }),
       ],
     );
   }
