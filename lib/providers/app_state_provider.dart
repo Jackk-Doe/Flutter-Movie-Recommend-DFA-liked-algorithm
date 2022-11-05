@@ -19,6 +19,8 @@ class AppStateProvider extends ChangeNotifier {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         _validatedInternetConnection = true;
+      } else {
+        _isError = true;
       }
     } catch (_) {
       _isError = true;
@@ -29,6 +31,7 @@ class AppStateProvider extends ChangeNotifier {
 
   void testApiKey() {
     // TODO : test api key available
+
 
     Future.delayed(const Duration(milliseconds: 3000), () {
       _validatedTmdbApiKey = true;
