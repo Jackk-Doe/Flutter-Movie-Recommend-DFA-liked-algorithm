@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class AppStateProvider extends ChangeNotifier {
@@ -5,20 +6,25 @@ class AppStateProvider extends ChangeNotifier {
   bool _validatedTmdbApiKey = false;
 
   bool _inHomePage = false;
+  bool _isError = false;
 
   bool get isValidateInternetConnection => _validatedInternetConnection;
   bool get isValidateTmdbApiKey => _validatedTmdbApiKey;
   bool get beInHomePage => _inHomePage;
 
-  void testInternetConnection() {
-    // TODO : test internet connection
 
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      _validatedInternetConnection = true;
-      print("Internet check : clear");
-      notifyListeners();
-    });
+  /// Use this function to check Internet connection, then update states
+  void testInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        _validatedInternetConnection = true;
+      }
+    } catch (_) {
+      _isError = true;
+    }
 
+    notifyListeners();
   }
 
   void testApiKey() {
