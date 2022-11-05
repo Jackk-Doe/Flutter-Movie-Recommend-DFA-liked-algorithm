@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:movie_recommend_dfa/services/tmdb_api_services.dart';
+
+import '../providers/providers.dart';
 
 class AppStateProvider extends ChangeNotifier {
   bool _validatedInternetConnection = false;
@@ -29,16 +32,21 @@ class AppStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void testApiKey() {
-    // TODO : test api key available
+  /// Use this function to check API_KEY validation, then update states
+  void testApiKey() async {
+    try {
+      bool result = await TmdbApiServices.getConfiguration();
 
+      if (result) {
+        _validatedTmdbApiKey = true;
+        _inHomePage = true;
+      } else {
+        _isError = true;
+      }
+    } catch (_) {
+      _isError = true;
+    }
 
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      _validatedTmdbApiKey = true;
-      print("API Key check : clear");
-      _inHomePage = true;
-      notifyListeners();
-    });
-
+    notifyListeners();
   }
 }
