@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:movie_recommend_dfa/navigation/app_router.dart';
 import 'package:movie_recommend_dfa/providers/providers.dart';
 
-import 'pages/pages.dart';
 
 void main() {
   runApp(const MyApp());
