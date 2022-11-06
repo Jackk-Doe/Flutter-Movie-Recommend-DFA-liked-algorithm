@@ -38,6 +38,9 @@ class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDe
         /// Home page
         if (appStateProvider.beInHomePage) HomePage.page(),
 
+        /// Genre Select Page
+        if (!appStateProvider.beInHomePage && appStateProvider.beInGenreSelectPage) GenreSelectPage.page(),
+
         /// Error page
         if (appStateProvider.hasError) ErrorPage.page(appStateProvider.errorMessage, () {
           // TODO : Implement Error button function
