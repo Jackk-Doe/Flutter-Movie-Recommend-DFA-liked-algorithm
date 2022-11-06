@@ -74,4 +74,13 @@ class AppStateProvider extends ChangeNotifier {
     _isGenreSelectPage = true;
     notifyListeners();
   }
+
+  /// Use this to reset, and go back to Home Page
+  void backToHome() {
+    _isGenreSelectPage = false;
+    // TODO : reset other later values
+
+    _inHomePage = true;
+    notifyListeners();
+  }
 }
