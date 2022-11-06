@@ -20,10 +20,6 @@ class ErrorPage extends StatelessWidget {
     super.key,
   });
 
-  void _goToHomePage() {
-    // TODO : Go back to Home Page
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +35,11 @@ class ErrorPage extends StatelessWidget {
 
             // Only show Button if [callBackFn] is not null
             CustomElevatedButton(
-              onPressfunc: _goToHomePage,
               buttonText: 'Back to Home Page',
               buttonColor: Colors.red,
+              onPressfunc: () {
+                // TODO : Back to Home Page
+              },
             ),
           ],
         ),
