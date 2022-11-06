@@ -5,18 +5,26 @@ import 'package:movie_recommend_dfa/services/tmdb_api_services.dart';
 import '../providers/providers.dart';
 
 class AppStateProvider extends ChangeNotifier {
+  /*
+  Provider values
+  */
   bool _validatedInternetConnection = false;
   bool _validatedTmdbApiKey = false;
 
   bool _inHomePage = false;
+  bool _isGenreSelectPage = false;
   bool _isError = false;
 
   String _errorMessageDefault = "Unknown Error founds";
   String _errorMessage = "Unknown Error founds";
 
+  /*
+  Provider getters
+  */
   bool get isValidateInternetConnection => _validatedInternetConnection;
   bool get isValidateTmdbApiKey => _validatedTmdbApiKey;
   bool get beInHomePage => _inHomePage;
+  bool get beInGenreSelectPage => _isGenreSelectPage;
   bool get hasError => _isError;
 
   String get errorMessage => _errorMessage;
@@ -57,6 +65,13 @@ class AppStateProvider extends ChangeNotifier {
       _errorMessage = "Error : Problem with API key validation process";
     }
 
+    notifyListeners();
+  }
+
+  /// Use this to go from HomePage to GenreSelectPage
+  void startGenreSelect() {
+    _inHomePage = false;
+    _isGenreSelectPage = true;
     notifyListeners();
   }
 }
