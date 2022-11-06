@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/models.dart';
+import '../services/services.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
 
@@ -19,29 +21,6 @@ class GenreSelectPage extends StatefulWidget {
 
 class _GenreSelectPageState extends State<GenreSelectPage> {
   final _random = Random();
-
-  // Test datas
-  final genres = [
-    "Action",
-    "Adventure",
-    "Animation",
-    "Comedy",
-    "Crime",
-    "Documentary",
-    "Drama",
-    "Family",
-    "Fantasy",
-    "History",
-    "Horror",
-    "Music",
-    "Mystery",
-    "Reomance",
-    "Science Fiction",
-    "TV Movie",
-    "Thriller",
-    "War",
-    "Western"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -62,28 +41,18 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
               color: Colors.blue[100],
               height: 500,
               width: 350,
-              child: GridView.builder(
-                padding: const EdgeInsets.all(8.0),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemCount: genres.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.all(8),
-                    color: Colors
-                            .primaries[_random.nextInt(Colors.primaries.length)]
-                        [_random.nextInt(9) * 100],
-                    child: Center(
-                      child: Text(
-                        genres[index],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  );
+              child: FutureBuilder(
+                future: TmdbApiServices.getGenres(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.data!.isEmpty) {
+                      // TODO : Go to Error Page
+                    }
+                    List<MovieGenre> genres = snapshot.data!;
+                    return _genreListGridViewWidget(genres);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
                 },
               ),
             ),
@@ -119,6 +88,35 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
           ],
         ),
       ),
+    );
+  }
+
+
+  /// To create Grid View of given Genre list
+  Widget _genreListGridViewWidget(List<MovieGenre> genres) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemCount: genres.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.all(8),
+          color: Colors.grey,
+          // color: Colors.primaries[_random.nextInt(Colors.primaries.length)]
+          //     [_random.nextInt(9) * 100],
+          child: Center(
+            child: Text(
+              genres[index].name,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
