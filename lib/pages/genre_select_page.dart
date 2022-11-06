@@ -1,7 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:movie_recommend_dfa/widgets/widgets.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/providers.dart';
+import '../widgets/widgets.dart';
 
 class GenreSelectPage extends StatefulWidget {
   static MaterialPage page() {
@@ -96,7 +99,8 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                   buttonColor: Colors.red,
                   buttonIcon: const Icon(Icons.cancel),
                   buttonFnc: () {
-                    print("Cancel button clicked!");
+                    //* Reset and go back to Home page
+                    Provider.of<AppStateProvider>(context, listen: false).backToHome();
                   },
                 ),
 
@@ -106,6 +110,7 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                   buttonColor: Colors.blue,
                   buttonIcon: const Icon(Icons.check),
                   buttonFnc: () {
+                    // TODO : go to next page
                     print("Select button clicked!");
                   },
                 ),
