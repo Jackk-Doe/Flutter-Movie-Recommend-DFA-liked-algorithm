@@ -7,7 +7,8 @@ import '../constants/constants.dart';
 
 class TmdbApiServices {
 
-  /// Use this to check API Key availability
+  /// Use this to check API Key availability,
+  /// If success return True, else False
   static Future<bool> getConfiguration() async {
     try {
       http.Response res = await http.get(
@@ -28,7 +29,8 @@ class TmdbApiServices {
   }
 
 
-  /// Use this to get List of Genre
+  /// Use this to get List of Genre,
+  /// If success return data List, else return Empty List
   static Future<List<MovieGenre>> getGenres() async {
     List<MovieGenre> genres = [];
 
