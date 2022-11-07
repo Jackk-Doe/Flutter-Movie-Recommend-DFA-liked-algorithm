@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+/// To store Movie data into model class
 class Movie {
   final int id;
   final List<int> genre_ids;
