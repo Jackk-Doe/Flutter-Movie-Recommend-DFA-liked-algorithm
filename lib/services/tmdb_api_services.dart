@@ -55,4 +55,36 @@ class TmdbApiServices {
     }
     return genres;
   }
+
+
+  /// Use this to get List of Movie, based bo given [genreIDs] arg
+  /// If success return data List, else return Empty List
+  static Future<List<Movie>> getMoviesByGenres(List<int> genreIDs) async {
+    List<Movie> movies = [];
+
+    // Convert List<int> to String
+    String genreIDsStringConverted = genreIDs.join(",");
+
+    try {
+      http.Response res = await http.get(
+        Uri.parse(
+          "${Constants.BASE_URL}/discover/movie?${Constants.API_KEY_QUERY}&with_genres=$genreIDsStringConverted"
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+      );
+
+      if (res.statusCode == 200) {
+        Map<String, dynamic> decoded = jsonDecode(res.body);
+        List<dynamic> moviesMap = decoded["results"];
+        List<Movie> movieModels = moviesMap.map((e) => Movie.fromMap(e)).toList();
+        movies = movieModels;
+      }
+    } catch (e) {
+      // NOTE : Not sure what to catch here
+    }
+    
+    return movies;
+  }
 }
