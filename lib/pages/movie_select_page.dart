@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/models.dart';
 import '../services/services.dart';
@@ -18,6 +19,7 @@ class MovieSelectpage extends StatefulWidget {
 }
 
 class _MovieSelectpageState extends State<MovieSelectpage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +27,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            /// Page title
             const Text(
               "Select One Interesting Movie",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -46,7 +49,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                     }
 
                     List<Movie> movies = snapshot.data!;
-                    return Text(movies[0].title);
+                    return _movieListGridView(movies);
                   } else {
                     return const Center(child: CircularProgressIndicator());
                   }
@@ -55,6 +58,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
             ),
             const SizedBox(height: 20),
 
+            /// Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -65,6 +69,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                   buttonIcon: const Icon(Icons.cancel),
                   buttonFnc: () {
                     // TODO : Reset, and go back to Home Page
+                    Provider.of<AppStateProvider>(context, listen: false).backToHome();
                   },
                 ),
 
@@ -82,6 +87,27 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
           ],
         ),
       ),
+    );
+  }
+
+
+  /// Create GridView of given Movie list
+  Widget _movieListGridView(List<Movie> movies) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 8.0,
+        childAspectRatio: .65
+      ),
+      itemCount: movies.length,
+      itemBuilder: (context, index) {
+        return MovieGrid(
+          title: movies[index].title,
+          poster_path: movies[index].poster_path,
+        );
+      },
     );
   }
 }
