@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_recommend_dfa/widgets/widgets.dart';
+
+import '../widgets/widgets.dart';
 
 class ErrorPage extends StatelessWidget {
   final String errorMsg;

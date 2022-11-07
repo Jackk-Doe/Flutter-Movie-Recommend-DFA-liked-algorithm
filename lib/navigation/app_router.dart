@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_recommend_dfa/providers/providers.dart';
-import 'package:movie_recommend_dfa/pages/pages.dart';
+import '../providers/providers.dart';
+import '../pages/pages.dart';
 
 class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   /// To accesses unique key across the entire app

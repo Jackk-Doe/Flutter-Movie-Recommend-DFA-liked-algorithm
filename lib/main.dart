@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:movie_recommend_dfa/navigation/app_router.dart';
-import 'package:movie_recommend_dfa/providers/providers.dart';
+import 'navigation/app_router.dart';
+import 'providers/providers.dart';
 
 
 void main() {

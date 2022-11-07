@@ -1,8 +1,9 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:movie_recommend_dfa/services/tmdb_api_services.dart';
 
-import '../providers/providers.dart';
+import 'package:flutter/material.dart';
+
+import '../services/tmdb_api_services.dart';
+
 
 class AppStateProvider extends ChangeNotifier {
   /*
