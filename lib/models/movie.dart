@@ -8,6 +8,7 @@ class Movie {
   final String release_date;
   final String original_title;
   final String overview;
+  final String poster_path;
   final double vote_average;
 
   Movie({
@@ -17,6 +18,7 @@ class Movie {
     required this.release_date,
     required this.original_title,
     required this.overview,
+    required this.poster_path,
     required this.vote_average,
   });
 
@@ -29,6 +31,7 @@ class Movie {
     result.addAll({'release_date': release_date});
     result.addAll({'original_title': original_title});
     result.addAll({'overview': overview});
+    result.addAll({'poster_path': poster_path});
     result.addAll({'vote_average': vote_average});
   
     return result;
@@ -42,6 +45,7 @@ class Movie {
       release_date: map['release_date'] ?? '',
       original_title: map['original_title'] ?? '',
       overview: map['overview'] ?? '',
+      poster_path: map['poster_path'] ?? '',
       vote_average: map['vote_average']?.toDouble() ?? 0.0,
     );
   }
