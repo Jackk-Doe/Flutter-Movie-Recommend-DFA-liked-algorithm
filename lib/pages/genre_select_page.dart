@@ -79,8 +79,8 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                   buttonColor: Colors.blue,
                   buttonIcon: const Icon(Icons.check),
                   buttonFnc: () {
-                    // TODO : go to next page
-                    print("Select button clicked!");
+                    Provider.of<AppStateProvider>(context, listen: false).startMovieSelect();
+                    // TODO : update value when user selected Genre
                   },
                 ),
               ],
