@@ -14,6 +14,7 @@ class AppStateProvider extends ChangeNotifier {
 
   bool _inHomePage = false;
   bool _isGenreSelectPage = false;
+  bool _isMovieSelectPage = false;
   bool _isError = false;
 
   String _errorMessageDefault = "Unknown Error founds";
@@ -26,6 +27,7 @@ class AppStateProvider extends ChangeNotifier {
   bool get isValidateTmdbApiKey => _validatedTmdbApiKey;
   bool get beInHomePage => _inHomePage;
   bool get beInGenreSelectPage => _isGenreSelectPage;
+  bool get beInMovieSelectPage => _isMovieSelectPage;
   bool get hasError => _isError;
 
   String get errorMessage => _errorMessage;
@@ -73,6 +75,13 @@ class AppStateProvider extends ChangeNotifier {
   void startGenreSelect() {
     _inHomePage = false;
     _isGenreSelectPage = true;
+    notifyListeners();
+  }
+
+  /// Use this to go from GenreSelectPage to MovieSelectPage
+  void startMovieSelect() {
+    _isGenreSelectPage = false;
+    _isMovieSelectPage = true;
     notifyListeners();
   }
 
