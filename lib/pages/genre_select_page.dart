@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:movie_recommend_dfa/widgets/genre_grid_view.dart';
 import 'package:provider/provider.dart';
 
 import '../models/models.dart';
@@ -20,7 +19,7 @@ class GenreSelectPage extends StatefulWidget {
 }
 
 class _GenreSelectPageState extends State<GenreSelectPage> {
-  final _random = Random();
+  MovieGenre? _selectedGenre;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,10 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                       // TODO : Go to Error Page
                     }
                     List<MovieGenre> genres = snapshot.data!;
-                    return _genreListGridViewWidget(genres);
+                    return GenreGridView(
+                      currentSelectedGenre: _selectedGenre,
+                      genres: genres,
+                    );
                   } else {
                     return const Center(child: CircularProgressIndicator());
                   }
@@ -93,30 +95,26 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
 
 
   /// To create Grid View of given Genre list
-  Widget _genreListGridViewWidget(List<MovieGenre> genres) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(8.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
-      itemCount: genres.length,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.all(8),
-          color: Colors.grey,
-          // color: Colors.primaries[_random.nextInt(Colors.primaries.length)]
-          //     [_random.nextInt(9) * 100],
-          child: Center(
-            child: Text(
-              genres[index].name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // Widget _genreListGridViewWidget(List<MovieGenre> genres) {
+  //   return GridView.builder(
+  //     padding: const EdgeInsets.all(8.0),
+  //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+  //       crossAxisCount: 2,
+  //       mainAxisSpacing: 6,
+  //       crossAxisSpacing: 6,
+  //     ),
+  //     itemCount: genres.length,
+  //     itemBuilder: (context, index) {
+  //       // Outer Container Box
+  //       return GenreGrid(
+  //         movieGenre: genres[index],
+  //         onClick: () {
+  //           print("Before: ${_selectedGenre?.name}");
+  //           _selectedGenre = genres[index];
+  //           print("After: ${_selectedGenre?.name}");
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 }
