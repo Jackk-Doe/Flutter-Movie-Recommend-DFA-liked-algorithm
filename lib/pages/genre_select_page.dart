@@ -6,7 +6,10 @@ import '../models/models.dart';
 import '../services/services.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
+import '../utils/utils.dart';
 
+// NOTE : should have call [TmdbApiServices.getGenres()] in initState(),
+//        or somewhere else, but not in build()
 class GenreSelectPage extends StatefulWidget {
   static MaterialPage page() {
     return const MaterialPage(child: GenreSelectPage());
@@ -51,6 +54,16 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                     return GenreGridView(
                       currentSelectedGenre: _selectedGenre,
                       genres: genres,
+                      onClick: (newSelectGenre) {
+                        if (_selectedGenre == null ||
+                            (_selectedGenre != null &&
+                                _selectedGenre != newSelectGenre)) {
+                          //* If [_selectedGenre] is not null, or [newSelectGenre] is different,
+                          //* re-assign [_selectedGenre]
+                          _selectedGenre = newSelectGenre;
+                        }
+                        return _selectedGenre;
+                      },
                     );
                   } else {
                     return const Center(child: CircularProgressIndicator());
@@ -71,7 +84,8 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                   buttonIcon: const Icon(Icons.cancel),
                   buttonFnc: () {
                     //* Reset and go back to Home page
-                    Provider.of<AppStateProvider>(context, listen: false).backToHome();
+                    Provider.of<AppStateProvider>(context, listen: false)
+                        .backToHome();
                   },
                 ),
 
@@ -81,7 +95,14 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                   buttonColor: Colors.blue,
                   buttonIcon: const Icon(Icons.check),
                   buttonFnc: () {
-                    Provider.of<AppStateProvider>(context, listen: false).startMovieSelect();
+                    if (_selectedGenre == null) {
+                      Utils.showSnackBar(
+                          context, "Please select 1 Genre first");
+                      return;
+                    }
+
+                    Provider.of<AppStateProvider>(context, listen: false)
+                        .startMovieSelect();
                     // TODO : update value when user selected Genre
                   },
                 ),
@@ -92,29 +113,4 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
       ),
     );
   }
-
-
-  /// To create Grid View of given Genre list
-  // Widget _genreListGridViewWidget(List<MovieGenre> genres) {
-  //   return GridView.builder(
-  //     padding: const EdgeInsets.all(8.0),
-  //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-  //       crossAxisCount: 2,
-  //       mainAxisSpacing: 6,
-  //       crossAxisSpacing: 6,
-  //     ),
-  //     itemCount: genres.length,
-  //     itemBuilder: (context, index) {
-  //       // Outer Container Box
-  //       return GenreGrid(
-  //         movieGenre: genres[index],
-  //         onClick: () {
-  //           print("Before: ${_selectedGenre?.name}");
-  //           _selectedGenre = genres[index];
-  //           print("After: ${_selectedGenre?.name}");
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 }

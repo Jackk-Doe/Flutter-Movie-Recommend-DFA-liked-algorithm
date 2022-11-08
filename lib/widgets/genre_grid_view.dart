@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 import 'genre_grid.dart';
 
+
+/// Create Genre Grid-View from given MovieGenre list
 class GenreGridView extends StatefulWidget {
   final List<MovieGenre> genres;
   MovieGenre? currentSelectedGenre;
 
+  /// [onClick] : select & return new genre, or keep a current genre
+  final MovieGenre? Function(MovieGenre) onClick;
+
   GenreGridView({
     required this.genres,
+    required this.onClick,
     required this.currentSelectedGenre,
     Key? key,
   }) : super(key: key);
@@ -32,12 +38,8 @@ class _GenreGridViewState extends State<GenreGridView> {
         // Outer Container Box
         return InkWell(
           onTap: () {
-            if (widget.currentSelectedGenre == null ||
-                (widget.currentSelectedGenre != null &&
-                    widget.currentSelectedGenre != widget.genres[index])) {
-              widget.currentSelectedGenre = widget.genres[index];
-              setState(() {});
-            }
+            widget.currentSelectedGenre = widget.onClick(widget.genres[index]);
+            setState(() {});
           },
           child: Container(
             color: (widget.currentSelectedGenre == widget.genres[index]
