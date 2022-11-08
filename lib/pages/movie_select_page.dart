@@ -41,6 +41,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
               height: 500,
               width: 350,
               child: FutureBuilder(
+                // TODO : call API some where else! would make life easier
                 future: TmdbApiServices.getMoviesByGenres([18, 35, 16, 14, 12]),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
