@@ -59,7 +59,7 @@ class TmdbApiServices {
 
   /// Use this to get List of Movie, based bo given [genreIDs] arg
   /// If success return data List, else return Empty List
-  static Future<List<Movie>> getMoviesByGenres(List<int> genreIDs) async {
+  static Future<List<Movie>> getMoviesByGenreIds(List<int> genreIDs) async {
     List<Movie> movies = [];
 
     // Convert List<int> to String
@@ -85,6 +85,17 @@ class TmdbApiServices {
       // NOTE : Not sure what to catch here
     }
     
+    return movies;
+  }
+
+
+  /// Get a List of Movie, by given [genreIds], also filtering by Movie [filterIds]
+  static Future<List<Movie>> getMoviesByGenresAndFilterByIds(List<int> filterIds, List<int> genreIds) async {
+    List<Movie> movies = await getMoviesByGenreIds(genreIds);
+    movies.removeWhere((movie) {
+      return filterIds.contains(movie.id);
+    });
+
     return movies;
   }
 }

@@ -107,7 +107,7 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
 
                     //* Update selected movie genre via Movie-Recom provider
                     Provider.of<MovieRecommendProvider>(context, listen: false)
-                        .recordInterestGenre(_selectedGenre!);
+                        .recordInterestGenreId(_selectedGenre!.id);
 
                     //* Notify App-State provider
                     Provider.of<AppStateProvider>(context, listen: false)
