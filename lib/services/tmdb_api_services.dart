@@ -57,18 +57,64 @@ class TmdbApiServices {
   }
 
 
-  /// Use this to get List of Movie, based bo given [genreIDs] arg
-  /// If success return data List, else return Empty List
-  static Future<List<Movie>> getMoviesByGenreIds(List<int> genreIDs) async {
-    List<Movie> movies = [];
+  // /// Use this to get List of Movie, based bo given [genreIDs] arg
+  // /// If success return data List, else return Empty List
+  // static Future<List<Movie>> getMoviesByGenreIds(List<int> genreIDs, {int page = 1}) async {
+  //   List<Movie> movies = [];
 
+  //   // Convert List<int> to String
+  //   String genreIDsStringConverted = genreIDs.join(",");
+
+  //   try {
+  //     http.Response res = await http.get(
+  //       Uri.parse(
+  //         "${Constants.BASE_URL}/discover/movie?${Constants.API_KEY_QUERY}&with_genres=$genreIDsStringConverted&page=$page"
+  //       ),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8'
+  //       },
+  //     );
+
+  //     if (res.statusCode == 200) {
+  //       Map<String, dynamic> decoded = jsonDecode(res.body);
+  //       List<dynamic> moviesMap = decoded["results"];
+  //       List<Movie> movieModels = moviesMap.map((e) => Movie.fromMap(e)).toList();
+  //       movies = movieModels;
+  //     }
+  //   } catch (e) {
+  //     // NOTE : Not sure what to catch here
+  //   }
+    
+  //   return movies;
+  // }
+
+
+  // /// Get a List of Movie, by given [genreIds], also filtering by Movie [filterIds]
+  // static Future<List<Movie>> getMoviesByGenresAndFilterByIds(List<int> filterIds, List<int> genreIds) async {
+  //   List<Movie> movies = await getMoviesByGenreIds(genreIds);
+  //   movies.removeWhere((movie) {
+  //     return filterIds.contains(movie.id);
+  //   });
+
+  //   return movies;
+  // }
+
+
+  /// Recursive function : get at least 10 movies, via given genre.Ids
+  static Future<List<Movie>> getMoviesByGenreIDs({
+    required Map<int, int> genreIdsAndCounts,       //Genre.Ids and count
+    List<Movie> movies = const [],                  //Return movies
+    List<int> filterIds = const [],                 //Filtering selected movie.ids
+    int page = 1,                                   //Pagination
+  }) async {
+    
     // Convert List<int> to String
-    String genreIDsStringConverted = genreIDs.join(",");
+    String genreIDsStringConverted = genreIdsAndCounts.keys.join(",");
 
     try {
       http.Response res = await http.get(
         Uri.parse(
-          "${Constants.BASE_URL}/discover/movie?${Constants.API_KEY_QUERY}&with_genres=$genreIDsStringConverted"
+          "${Constants.BASE_URL}/discover/movie?${Constants.API_KEY_QUERY}&with_genres=$genreIDsStringConverted&page=$page"
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
@@ -77,25 +123,45 @@ class TmdbApiServices {
 
       if (res.statusCode == 200) {
         Map<String, dynamic> decoded = jsonDecode(res.body);
+        int availablePage = decoded["total_pages"];  //Total page
         List<dynamic> moviesMap = decoded["results"];
         List<Movie> movieModels = moviesMap.map((e) => Movie.fromMap(e)).toList();
         movies = movieModels;
+
+        // Filtering, only get un-selected movies
+        movies.removeWhere((movie) {
+          return filterIds.contains(movie.id);
+        });
+
+        // If API returned result (movies) are less than 10
+        if (movies.length < 10) {
+
+          // If still have available page
+          if (availablePage > page) {
+            movies = await getMoviesByGenreIDs(genreIdsAndCounts: genreIdsAndCounts, movies: movies, filterIds: filterIds, page: page++);
+          } 
+          // Else, cut out the least count of genre.Ids
+          else {
+            int leastCountId = genreIdsAndCounts.keys.first;
+
+            // Get the least count
+            genreIdsAndCounts.forEach((id, count) {
+              if (id != leastCountId && count < genreIdsAndCounts[leastCountId]!) {
+                leastCountId = id;
+              }
+            });
+
+            // Remove the least count genre.id
+            genreIdsAndCounts.remove(leastCountId);
+
+            movies = await getMoviesByGenreIDs(genreIdsAndCounts: genreIdsAndCounts, movies: movies, filterIds: filterIds, page: page);
+          }
+        }
       }
     } catch (e) {
       // NOTE : Not sure what to catch here
     }
     
-    return movies;
-  }
-
-
-  /// Get a List of Movie, by given [genreIds], also filtering by Movie [filterIds]
-  static Future<List<Movie>> getMoviesByGenresAndFilterByIds(List<int> filterIds, List<int> genreIds) async {
-    List<Movie> movies = await getMoviesByGenreIds(genreIds);
-    movies.removeWhere((movie) {
-      return filterIds.contains(movie.id);
-    });
-
     return movies;
   }
 }

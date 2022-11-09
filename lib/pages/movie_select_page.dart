@@ -24,15 +24,23 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
   late Future<List<Movie>> _moviesList;
   Movie? _selectedMovie;
 
+
   /// To reload Movie List, based on provider datas, also filtering some
   void _reloadMovieList() async {
     //* Get user's interested genres & selected MovieIds record from provider
     var provider = Provider.of<MovieRecommendProvider>(context, listen: false);
-    List<int> interestedgenres = provider.interestedGenre.keys.toList(growable: false);
-    List<int> recordedMovieIds = provider.recordedMovieIds;
+    List<int> previousSelectedMovieIds = provider.recordedMovieIds;
 
-    //* Generate random movies, based on above value, but filtering with selected MovieIds
-    _moviesList = TmdbApiServices.getMoviesByGenresAndFilterByIds(recordedMovieIds, interestedgenres);
+
+    //* (Old ver) Generate random movies, based on above value, but filtering with selected MovieIds
+    // List<int> interestedgenres = provider.interestedGenre.keys.toList(growable: false);
+    // _moviesList = TmdbApiServices.getMoviesByGenresAndFilterByIds(previousSelectedMovieIds, interestedgenres);
+
+
+    //* Generate random movies, based on user interested genre.Ids, filtering with previous selected Movie.Ids
+    //* The ApiServices function is guranteed to get atleast 10 movies
+    Map<int, int> interestedGenres = provider.interestedGenre;
+    _moviesList = TmdbApiServices.getMoviesByGenreIDs(genreIdsAndCounts: interestedGenres, filterIds: previousSelectedMovieIds);
   }
 
   @override
@@ -108,6 +116,8 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                     var provider = Provider.of<MovieRecommendProvider>(context, listen: false);
                     provider.recordInterestGenreIdList(_selectedMovie!.genre_ids);
                     provider.recordSelectedMovieId(_selectedMovie!.id);
+
+                    print("Interested : ${provider.interestedGenre}");
 
                     setState(() {
                       //* Re-load data : update list with new provider values
