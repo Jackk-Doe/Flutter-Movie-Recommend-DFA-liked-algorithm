@@ -5,6 +5,7 @@ import '../models/models.dart';
 import '../services/services.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
+import '../utils/utils.dart';
 
 class MovieSelectpage extends StatefulWidget {
 
@@ -89,6 +90,10 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                   buttonColor: Colors.blue,
                   buttonIcon: const Icon(Icons.check),
                   buttonFnc: () {
+                    if (_selectedMovie == null) {
+                      Utils.showSnackBar(context, "Please select 1 Movie");
+                    }
+                    
                     // TODO : Update value user interest
                   },
                 ),
