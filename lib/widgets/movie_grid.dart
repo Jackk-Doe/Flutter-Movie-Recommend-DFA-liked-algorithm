@@ -4,81 +4,67 @@ import '../constants/constants.dart';
 
 /// Create Movie Grid widget,
 /// to be used with Movie-GridView
-class MovieGrid extends StatefulWidget {
+class MovieGrid extends StatelessWidget {
 
   final String title;
   final String poster_path;
 
-  MovieGrid({
+  const MovieGrid({
     required this.title,
     required this.poster_path,
     super.key,
   });
 
   @override
-  State<MovieGrid> createState() => _MovieGridState();
-}
-
-class _MovieGridState extends State<MovieGrid> {
-  bool isClicked = false;
-
-  @override
   Widget build(BuildContext context) {
-    // TODO : change to InkWell
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isClicked = !isClicked;
-        });
-        // TODO : implement system here
-      },
-      child: Container(
-        color: (isClicked ? Colors.blue[900] : Colors.blue[100]),
-        padding: const EdgeInsets.all(6),
-        child: Stack(
-          children: [
-            Image.network(
-              "${Constants.IMG_BASE_URL}/w780${widget.poster_path}",
-              fit: BoxFit.fill,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  //* Loading : successed
-                  return child;
-                }
-                //* Loading : still
-                return const Center(child: CircularProgressIndicator());
-              },
-              errorBuilder: (context, error, stackTrace) {
-                //* Loading Image Fail
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text("Loading Image Failed"),
-                      Icon(Icons.error)
-                    ],
-                  ),
-                );
-              },
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                color: Colors.black.withOpacity(.3),
-                width: 163,
-                child: Text(
-                  widget.title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white
-                  ),
-                ),
+    return Stack(
+      children: [
+
+        /// Movie Image
+        Image.network(
+          "${Constants.IMG_BASE_URL}/w780$poster_path",
+          fit: BoxFit.fill,
+          loadingBuilder: (context, child, loadingProgress) {
+
+            if (loadingProgress == null) {
+              //* Image Loading : Successed
+              return child;
+            }
+
+            //* Image Loading : Inprogress
+            return const Center(child: CircularProgressIndicator());
+          },
+          errorBuilder: (context, error, stackTrace) {
+            //* Image Loading : Fail
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text("Loading Image Failed"),
+                  Icon(Icons.error)
+                ],
+              ),
+            );
+          },
+        ),
+
+        /// Movie Title
+        Positioned(
+          bottom: 0,
+          child: Container(
+            color: Colors.black.withOpacity(.3),
+            width: 163,
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
