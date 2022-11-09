@@ -12,9 +12,38 @@ class MovieRecommendProvider extends ChangeNotifier {
   /// To record selected movie id into a list
   Set<int> _recordedMovieIds = {};
 
+  /// Available genres titles & Ids from TMDB
+  List<MovieGenre> _genres = [];
+
 
   Map<int, int> get interestedGenre => _interested;
   List<int> get recordedMovieIds => _recordedMovieIds.toList(growable: false);
+
+
+  /// Get [_genres] data in Map
+  Map<int, String> _getGenresMap() {
+    Map<int, String> genres = {};
+    _genres.forEach((genre) {
+      genres[genre.id] = genre.name;
+    });
+    return genres;
+  }
+
+  /// Set [_genres] data
+  void setGenres(List<MovieGenre> genres) {
+    _genres = genres;
+  }
+
+  /// Create List<String> from [_interested]. e.g ["Action: 1", "Crime: 5"]
+  List<String> getUserInterestingGenreCount () {
+    List<String> result = [];
+    Map<int, String> genres = _getGenresMap();
+    _interested.forEach((id, count) {
+      result.add("${genres[id]} : $count");
+    });
+
+    return result;
+  }
 
   /// Record selected genreId into [_interested] map value
   void recordInterestGenreId(int genreId) {

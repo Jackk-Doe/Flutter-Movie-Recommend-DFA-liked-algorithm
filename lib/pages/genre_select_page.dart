@@ -28,6 +28,14 @@ class GenreSelectPage extends StatefulWidget {
 class _GenreSelectPageState extends State<GenreSelectPage> {
   MovieGenre? _selectedGenre;
 
+  late Future<List<MovieGenre>> _genreList;
+
+  @override
+  void initState() {
+    super.initState();
+    _genreList = TmdbApiServices.getGenres();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,13 +56,18 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
               height: 500,
               width: 350,
               child: FutureBuilder(
-                future: TmdbApiServices.getGenres(),
+                future: _genreList,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.data!.isEmpty) {
                       // TODO : Go to Error Page
                     }
+
                     List<MovieGenre> genres = snapshot.data!;
+
+                    //* Set TMDB genres datas into Movie-Recom provider
+                    Provider.of<MovieRecommendProvider>(context, listen: false).setGenres(genres);
+
                     return GenreGridView(
                       currentSelectedGenre: _selectedGenre,
                       genres: genres,
