@@ -24,10 +24,21 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
   late Future<List<Movie>> _moviesList;
   Movie? _selectedMovie;
 
+  /// To reload Movie List, based on provider datas, also filtering some
+  void _reloadMovieList() async {
+    //* Get user's interested genres & selected MovieIds record from provider
+    var provider = Provider.of<MovieRecommendProvider>(context, listen: false);
+    List<int> interestedgenres = provider.interestedGenre.keys.toList(growable: false);
+    List<int> recordedMovieIds = provider.recordedMovieIds;
+
+    //* Generate random movies, based on above value, but filtering with selected MovieIds
+    _moviesList = TmdbApiServices.getMoviesByGenresAndFilterByIds(recordedMovieIds, interestedgenres);
+  }
+
   @override
   void initState() {
     super.initState();
-    _moviesList = TmdbApiServices.getMoviesByGenres([18, 35, 16, 14, 12]);
+    _reloadMovieList();
   }
 
   @override
@@ -51,7 +62,6 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
               height: 500,
               width: 350,
               child: FutureBuilder(
-                // TODO : call API some where else! would make life easier
                 future: _moviesList,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
@@ -84,7 +94,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                   },
                 ),
 
-                /// Cancel Button
+                /// Select Button
                 CustomIconButton(
                   buttonMessage: "Select",
                   buttonColor: Colors.blue,
@@ -93,8 +103,16 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                     if (_selectedMovie == null) {
                       Utils.showSnackBar(context, "Please select 1 Movie");
                     }
-                    
-                    // TODO : Update value user interest
+
+                    // Update provider values
+                    var provider = Provider.of<MovieRecommendProvider>(context, listen: false);
+                    provider.recordInterestGenreIdList(_selectedMovie!.genre_ids);
+                    provider.recordSelectedMovieId(_selectedMovie!.id);
+
+                    setState(() {
+                      //* Re-load data : update list with new provider values
+                      _reloadMovieList();
+                    });
                   },
                 ),
               ],
