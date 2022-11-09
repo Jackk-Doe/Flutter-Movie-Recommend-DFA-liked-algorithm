@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,6 +52,10 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> userInterests = 
+        Provider.of<MovieRecommendProvider>(context, listen: false)
+            .getUserInterestingGenreCount();
+    
     return Scaffold(
       body: Center(
         child: Column(
@@ -61,6 +66,44 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
               "Select One Interesting Movie",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+
+            Container(
+              height: 80,
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 2.0,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              // child: ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: userInterests.length,
+              //   itemBuilder: (context, index) {
+              //     return Text(
+              //       userInterests[index],
+              //       style: TextStyle(fontSize: (index == 0 ? 24 : 16)),
+              //       textAlign: TextAlign.center,
+              //     );
+              //   },
+              // ),
+              child: ListView(
+                primary: true,
+                shrinkWrap: true,
+                children: [
+                  // const Text(
+                  //   "User Interested Genre title and count :",
+                  //   style: TextStyle(fontSize: 14),
+                  // ),
+                  // const SizedBox(height: 6),
+                  Text(
+                    userInterests.join(",     "),
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
             ),
             const SizedBox(height: 10),
 
