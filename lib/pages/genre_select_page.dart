@@ -10,6 +10,10 @@ import '../utils/utils.dart';
 
 // NOTE : should have call [TmdbApiServices.getGenres()] in initState(),
 //        or somewhere else, but not in build()
+
+// NOTE 2 : selecting system in MovieSelectPage is better implemented
+
+// NOTE 3 : lazy to change
 class GenreSelectPage extends StatefulWidget {
   static MaterialPage page() {
     return const MaterialPage(child: GenreSelectPage());
