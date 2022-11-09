@@ -40,6 +40,26 @@ class _MovieGridState extends State<MovieGrid> {
             Image.network(
               "${Constants.IMG_BASE_URL}/w780${widget.poster_path}",
               fit: BoxFit.fill,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  //* Loading : successed
+                  return child;
+                }
+                //* Loading : still
+                return const Center(child: CircularProgressIndicator());
+              },
+              errorBuilder: (context, error, stackTrace) {
+                //* Loading Image Fail
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("Loading Image Failed"),
+                      Icon(Icons.error)
+                    ],
+                  ),
+                );
+              },
             ),
             Positioned(
               bottom: 0,
