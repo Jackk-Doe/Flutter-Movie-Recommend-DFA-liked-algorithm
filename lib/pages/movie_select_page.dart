@@ -21,6 +21,7 @@ class MovieSelectpage extends StatefulWidget {
 class _MovieSelectpageState extends State<MovieSelectpage> {
 
   late Future<List<Movie>> _moviesList;
+  Movie? _selectedMovie;
 
   @override
   void initState() {
@@ -112,9 +113,20 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
       ),
       itemCount: movies.length,
       itemBuilder: (context, index) {
-        return MovieGrid(
-          title: movies[index].title,
-          poster_path: movies[index].poster_path,
+        return InkWell(
+          onTap: () {
+            setState(() {
+              _selectedMovie = movies[index];
+            });
+          },
+          child: Container(
+            color: (_selectedMovie == movies[index] ? Colors.blue[900] : Colors.blue[100]),
+            padding: const EdgeInsets.all(6),
+            child: MovieGrid(
+              title: movies[index].title,
+              poster_path: movies[index].poster_path,
+            ),
+          ),
         );
       },
     );
