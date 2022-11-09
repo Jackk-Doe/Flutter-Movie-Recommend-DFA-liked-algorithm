@@ -10,9 +10,11 @@ class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDe
   final GlobalKey<NavigatorState> navigatorKey;
 
   final AppStateProvider appStateProvider;
+  final MovieRecommendProvider movieRecomProvider; //AppRouter doesn't need to listen to this var
 
   AppRouter({
     required this.appStateProvider,
+    required this.movieRecomProvider,
   }) : navigatorKey = GlobalKey<NavigatorState>() {
     /// When the state changed, router will re-configure the navigator with new set of pages
     appStateProvider.addListener(notifyListeners);
