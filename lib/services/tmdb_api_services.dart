@@ -151,10 +151,14 @@ class TmdbApiServices {
               }
             });
 
+            // Create a new var [reduced] to prevent, var pass by ref problem in recursion
+            Map<int, int> reduced = {};
+            reduced.addAll(genreIdsAndCounts);
+            
             // Remove the least count genre.id
-            genreIdsAndCounts.remove(leastCountId);
+            reduced.remove(leastCountId);
 
-            movies = await getMoviesByGenreIDs(genreIdsAndCounts: genreIdsAndCounts, movies: movies, filterIds: filterIds, page: page);
+            movies = await getMoviesByGenreIDs(genreIdsAndCounts: reduced, movies: movies, filterIds: filterIds, page: page);
           }
         }
       }
