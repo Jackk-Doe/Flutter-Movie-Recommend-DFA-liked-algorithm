@@ -20,6 +20,14 @@ class MovieSelectpage extends StatefulWidget {
 
 class _MovieSelectpageState extends State<MovieSelectpage> {
 
+  late Future<List<Movie>> _moviesList;
+
+  @override
+  void initState() {
+    super.initState();
+    _moviesList = TmdbApiServices.getMoviesByGenres([18, 35, 16, 14, 12]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +50,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
               width: 350,
               child: FutureBuilder(
                 // TODO : call API some where else! would make life easier
-                future: TmdbApiServices.getMoviesByGenres([18, 35, 16, 14, 12]),
+                future: _moviesList,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.data!.isEmpty) {
