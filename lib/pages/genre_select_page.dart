@@ -37,7 +37,7 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
           children: [
             /// Page Title
             const Text(
-              "Select Movie Genre",
+              "Select One Movie Genre",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
@@ -105,9 +105,13 @@ class _GenreSelectPageState extends State<GenreSelectPage> {
                       return;
                     }
 
+                    //* Update selected movie genre via Movie-Recom provider
+                    Provider.of<MovieRecommendProvider>(context, listen: false)
+                        .recordInterestGenre(_selectedGenre!);
+
+                    //* Notify App-State provider
                     Provider.of<AppStateProvider>(context, listen: false)
                         .startMovieSelect();
-                    // TODO : update value when user selected Genre
                   },
                 ),
               ],
