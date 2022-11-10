@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_recommend_dfa/providers/providers.dart';
-import 'package:movie_recommend_dfa/pages/pages.dart';
+import '../providers/providers.dart';
+import '../pages/pages.dart';
 
 class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   /// To accesses unique key across the entire app
@@ -9,9 +9,11 @@ class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDe
   final GlobalKey<NavigatorState> navigatorKey;
 
   final AppStateProvider appStateProvider;
+  final MovieRecommendProvider movieRecomProvider; //AppRouter doesn't need to listen to this var
 
   AppRouter({
     required this.appStateProvider,
+    required this.movieRecomProvider,
   }) : navigatorKey = GlobalKey<NavigatorState>() {
     /// When the state changed, router will re-configure the navigator with new set of pages
     appStateProvider.addListener(notifyListeners);
@@ -37,6 +39,18 @@ class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDe
 
         /// Home page
         if (appStateProvider.beInHomePage) HomePage.page(),
+
+        /// Genre Select Page
+        if (!appStateProvider.beInHomePage && appStateProvider.beInGenreSelectPage) 
+          GenreSelectPage.page(),
+
+        /// Movie Select Page
+        if (!appStateProvider.beInGenreSelectPage && appStateProvider.beInMovieSelectPage)
+          MovieSelectpage.page(),
+
+        /// Movie Recommend Page
+        if (!appStateProvider.beInMovieSelectPage && appStateProvider.beInMovieRecomPage)
+          MovieRecommendPage.page(),
 
         /// Error page
         if (appStateProvider.hasError) ErrorPage.page(appStateProvider.errorMessage, () {

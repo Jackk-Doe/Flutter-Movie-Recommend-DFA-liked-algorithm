@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movie_recommend_dfa/providers/providers.dart';
-
 import 'package:provider/provider.dart';
+
+import '../providers/providers.dart';
+
 
 class SplashPage extends StatefulWidget {
 
