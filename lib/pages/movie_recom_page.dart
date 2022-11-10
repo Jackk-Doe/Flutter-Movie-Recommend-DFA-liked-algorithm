@@ -128,8 +128,16 @@ class _MovieRecommendPageState extends State<MovieRecommendPage> {
             CustomIconButton(
               buttonMessage: "Back to Home",
               buttonColor: Colors.cyan,
-              buttonIcon: Icon(Icons.stop),
-              buttonFnc: () {},
+              buttonIcon: const Icon(Icons.stop),
+              buttonFnc: () {
+                //* Reset all values in Movie-Recom provider
+                Provider.of<MovieRecommendProvider>(context, listen: false)
+                    .resetAllValues();
+
+                //* Notify App-State provider, back to Home
+                Provider.of<AppStateProvider>(context, listen: false)
+                    .backToHome();
+              },
             )
           ],
         ),
