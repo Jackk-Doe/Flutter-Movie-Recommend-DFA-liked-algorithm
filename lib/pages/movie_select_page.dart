@@ -183,7 +183,8 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                     provider.recordInterestGenreIdList(_selectedMovie!.genre_ids);
                     provider.recordSelectedMovieId(_selectedMovie!.id);
 
-                    print("Interested : ${provider.interestedGenre}");
+                    // NOTE : print User's selected Genres ID & counts
+                    // print("Interested : ${provider.interestedGenre}");
 
                     setState(() {
                       //* Re-load data : update list with new provider values
