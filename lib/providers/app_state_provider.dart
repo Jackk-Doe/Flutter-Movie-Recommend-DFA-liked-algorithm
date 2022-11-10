@@ -1,22 +1,35 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:movie_recommend_dfa/services/tmdb_api_services.dart';
 
-import '../providers/providers.dart';
+import 'package:flutter/material.dart';
+
+import '../services/tmdb_api_services.dart';
+
 
 class AppStateProvider extends ChangeNotifier {
+  /*
+  Provider values
+  */
   bool _validatedInternetConnection = false;
   bool _validatedTmdbApiKey = false;
 
   bool _inHomePage = false;
+  bool _isGenreSelectPage = false;
+  bool _isMovieSelectPage = false;
+  bool _isMovieRecomPage = false;
   bool _isError = false;
 
   String _errorMessageDefault = "Unknown Error founds";
   String _errorMessage = "Unknown Error founds";
 
+  /*
+  Provider getters
+  */
   bool get isValidateInternetConnection => _validatedInternetConnection;
   bool get isValidateTmdbApiKey => _validatedTmdbApiKey;
   bool get beInHomePage => _inHomePage;
+  bool get beInGenreSelectPage => _isGenreSelectPage;
+  bool get beInMovieSelectPage => _isMovieSelectPage;
+  bool get beInMovieRecomPage => _isMovieRecomPage;
   bool get hasError => _isError;
 
   String get errorMessage => _errorMessage;
@@ -57,6 +70,40 @@ class AppStateProvider extends ChangeNotifier {
       _errorMessage = "Error : Problem with API key validation process";
     }
 
+    notifyListeners();
+  }
+
+  /// Use this to go from HomePage to GenreSelectPage
+  void startGenreSelect() {
+    _inHomePage = false;
+    _isGenreSelectPage = true;
+    notifyListeners();
+  }
+
+  /// Use this to go from GenreSelectPage to MovieSelectPage
+  void startMovieSelect() {
+    _isGenreSelectPage = false;
+    _isMovieSelectPage = true;
+    notifyListeners();
+  }
+
+  /// Use this to ge from MovieSelectPage to MovieRecommendPage
+  void startMovieRecom() {
+    _isMovieSelectPage = false;
+    _isMovieRecomPage = true;
+    notifyListeners();
+  }
+
+
+  /// Use this to reset, and go back to Home Page
+  void backToHome() {
+    _isGenreSelectPage = false;
+    _isMovieSelectPage = false;
+    _isMovieRecomPage = false;
+    
+    _isError = false;
+
+    _inHomePage = true;
     notifyListeners();
   }
 }

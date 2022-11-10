@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:movie_recommend_dfa/navigation/app_router.dart';
-import 'package:movie_recommend_dfa/providers/providers.dart';
+import 'navigation/app_router.dart';
+import 'providers/providers.dart';
 
-import 'pages/pages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +21,7 @@ class _MyAppState extends State<MyApp> {
   Providers 
   */
   final _appStateProvider = AppStateProvider();
+  final _movieRecomProvider = MovieRecommendProvider();
 
   /*
   Navigator 2.0 : App router
@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     _appRouter = AppRouter(
       appStateProvider: _appStateProvider,
+      movieRecomProvider: _movieRecomProvider,
     );
     super.initState();
   }
@@ -43,6 +44,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (context) => _appStateProvider,
         ),
+        ChangeNotifierProvider(
+          create: (context) => _movieRecomProvider,
+        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
