@@ -60,4 +60,12 @@ class MovieRecommendProvider extends ChangeNotifier {
   void recordSelectedMovieId(int movieId) {
     _recordedMovieIds.add(movieId);
   }
+
+
+  /// Reset all values
+  void resetAllValues() {
+    _interested.clear();
+    _recordedMovieIds.clear();
+    _genres.clear();
+  }
 }

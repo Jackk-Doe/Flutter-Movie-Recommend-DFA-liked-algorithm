@@ -93,13 +93,15 @@ class AppStateProvider extends ChangeNotifier {
     _isMovieRecomPage = true;
     notifyListeners();
   }
-  
+
 
   /// Use this to reset, and go back to Home Page
   void backToHome() {
     _isGenreSelectPage = false;
     _isMovieSelectPage = false;
-    // TODO : reset other later values
+    _isMovieRecomPage = false;
+    
+    _isError = false;
 
     _inHomePage = true;
     notifyListeners();
