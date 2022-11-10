@@ -22,7 +22,7 @@ Video_slides : [Google Docs](https://drive.google.com/file/d/1ZOtxPDKBYV4fWmzpit
 
 
 ### 1. Set up TMDB API key for the app
-a. Go into folder `lib/constants/`.
+a. Go into folder `lib/constants/`. <br/>
 b. Inside this folder create `constants.dart` file, to store TMDB Api key and other constant values.
    * NOTE : watch `constants.example.dart` as example.
    * The `constants.dart` should look like this :
