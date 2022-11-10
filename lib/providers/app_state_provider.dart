@@ -15,6 +15,7 @@ class AppStateProvider extends ChangeNotifier {
   bool _inHomePage = false;
   bool _isGenreSelectPage = false;
   bool _isMovieSelectPage = false;
+  bool _isMovieRecomPage = false;
   bool _isError = false;
 
   String _errorMessageDefault = "Unknown Error founds";
@@ -28,6 +29,7 @@ class AppStateProvider extends ChangeNotifier {
   bool get beInHomePage => _inHomePage;
   bool get beInGenreSelectPage => _isGenreSelectPage;
   bool get beInMovieSelectPage => _isMovieSelectPage;
+  bool get beInMovieRecomPage => _isMovieRecomPage;
   bool get hasError => _isError;
 
   String get errorMessage => _errorMessage;
@@ -84,6 +86,14 @@ class AppStateProvider extends ChangeNotifier {
     _isMovieSelectPage = true;
     notifyListeners();
   }
+
+  /// Use this to ge from MovieSelectPage to MovieRecommendPage
+  void startMovieRecom() {
+    _isMovieSelectPage = false;
+    _isMovieRecomPage = true;
+    notifyListeners();
+  }
+  
 
   /// Use this to reset, and go back to Home Page
   void backToHome() {

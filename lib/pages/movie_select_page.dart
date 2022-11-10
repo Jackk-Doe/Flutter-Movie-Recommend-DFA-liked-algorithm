@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,6 +60,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             /// Page title
             const Text(
               "Select One Interesting Movie",
@@ -68,6 +68,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
+
 
             /// Show current User's selected genre counts
             Container(
@@ -108,6 +109,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
             ),
             const SizedBox(height: 10),
 
+
             /// Movie List
             Container(
               color: Colors.blue[100],
@@ -131,20 +133,40 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
             ),
             const SizedBox(height: 20),
 
+
             /// Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                /// Cancel Button
-                CustomIconButton(
-                  buttonMessage: "Cancel",
-                  buttonColor: Colors.red,
-                  buttonIcon: const Icon(Icons.cancel),
-                  buttonFnc: () {
-                    // TODO : Reset, and go back to Home Page
-                    Provider.of<AppStateProvider>(context, listen: false).backToHome();
-                  },
-                ),
+                (Provider.of<MovieRecommendProvider>(context, listen: false)
+                        .recordedMovieIds
+                        .isEmpty
+                    ?
+
+                    /// Cancel Button : has not selected any movie yet
+                    CustomIconButton(
+                        buttonMessage: "Cancel",
+                        buttonColor: Colors.red,
+                        buttonIcon: const Icon(Icons.cancel),
+                        buttonFnc: () {
+                          // TODO : Reset, and go back to Home Page
+                          Provider.of<AppStateProvider>(context, listen: false)
+                              .backToHome();
+                        },
+                      )
+                    :
+
+                    /// Stop Button : stop getting new random movies
+                    CustomIconButton(
+                        buttonMessage: "Stop",
+                        buttonColor: Colors.cyan,
+                        buttonIcon: const Icon(Icons.stop),
+                        buttonFnc: () {
+                          // Stop generate new Random movie
+                          Provider.of<AppStateProvider>(context, listen: false)
+                              .startMovieRecom();
+                        },
+                      )),
 
                 /// Select Button
                 CustomIconButton(

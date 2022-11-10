@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_recommend_dfa/pages/movie_select_page.dart';
 
 import '../providers/providers.dart';
 import '../pages/pages.dart';
@@ -48,6 +47,10 @@ class AppRouter extends RouterDelegate with ChangeNotifier, PopNavigatorRouterDe
         /// Movie Select Page
         if (!appStateProvider.beInGenreSelectPage && appStateProvider.beInMovieSelectPage)
           MovieSelectpage.page(),
+
+        /// Movie Recommend Page
+        if (!appStateProvider.beInMovieSelectPage && appStateProvider.beInMovieRecomPage)
+          MovieRecommendPage.page(),
 
         /// Error page
         if (appStateProvider.hasError) ErrorPage.page(appStateProvider.errorMessage, () {
