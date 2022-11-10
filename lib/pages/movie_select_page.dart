@@ -149,7 +149,11 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                         buttonColor: Colors.red,
                         buttonIcon: const Icon(Icons.cancel),
                         buttonFnc: () {
-                          // TODO : Reset, and go back to Home Page
+                          //* Reset all values in Movie-Recom provider
+                          Provider.of<MovieRecommendProvider>(context, listen: false)
+                              .resetAllValues();
+
+                          //* Notify App-State provider, back to Home
                           Provider.of<AppStateProvider>(context, listen: false)
                               .backToHome();
                         },
