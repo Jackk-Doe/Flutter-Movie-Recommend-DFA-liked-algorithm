@@ -1,16 +1,50 @@
-# movie_recommend_dfa
+# Movie Recommend App
 
-A new Flutter project.
+A Flutter : Movie Recommend Application, with Deterministic-Finite-Automaton (DFA) liked algorithm.
 
-## Getting Started
+This project is for AUT COMP711 : Theory of Computation assignment (mini project)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Submit_video : [Google drive video](https://drive.google.com/file/d/1HRav16wVc4T8cbZrc_H7XpSO3HKuO0bB/view?usp=share_link)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Video_slides : [Google Docs](https://drive.google.com/file/d/1ZOtxPDKBYV4fWmzpituyQfgtYhfN-Z6_/view?usp=share_link)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<br/>
+
+## Tech-stack used :
+* Flutter : for frontend client app
+  * Navigator 2.0 : together with customed providers for state management.
+* TMDB : TMDB API to get movie datas
+
+<br/>
+
+## To Run App
+
+
+### 1. Set up TMDB API key for the app
+a. Go into folder `lib/constants/`.
+b. Inside this folder create `constants.dart` file, to store TMDB Api key and other constant values.
+   * NOTE : watch `constants.example.dart` as example.
+   * The `constants.dart` should look like this :
+   
+   ```
+   class Constants {
+    static const String BASE_URL = "https://api.themoviedb.org/3";
+    static const String TMDB_API_KEY = "place_your_tmdb_api_key_here";
+
+    static const String API_KEY_QUERY = "api_key=${TMDB_API_KEY}";
+
+    static const String IMG_BASE_URL = "https://image.tmdb.org/t/p";
+    }
+   ```
+   
+c. Store your TMDB Api key inside `TMDB_API_KEY` variable.
+   
+   
+### 2. Run the app
+In the root folder, run the app with this below command :
+```
+flutter run
+```
+
+Or run from editor, run on specific devices, or etc...
