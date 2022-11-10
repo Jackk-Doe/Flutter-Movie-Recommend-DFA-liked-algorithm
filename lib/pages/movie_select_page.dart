@@ -80,31 +80,20 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              // child: ListView.builder(
-              //   shrinkWrap: true,
-              //   itemCount: userInterests.length,
-              //   itemBuilder: (context, index) {
-              //     return Text(
-              //       userInterests[index],
-              //       style: TextStyle(fontSize: (index == 0 ? 24 : 16)),
-              //       textAlign: TextAlign.center,
-              //     );
-              //   },
-              // ),
-              child: ListView(
-                primary: true,
-                shrinkWrap: true,
-                children: [
-                  // const Text(
-                  //   "User Interested Genre title and count :",
-                  //   style: TextStyle(fontSize: 14),
-                  // ),
-                  // const SizedBox(height: 6),
-                  Text(
-                    userInterests.join(",     "),
-                    textAlign: TextAlign.center,
-                  )
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Text(
+                      "User Interested Genre title and count :",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      userInterests.join(",     "),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 10),
