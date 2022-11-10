@@ -127,9 +127,15 @@ class TmdbApiServices {
         List<dynamic> moviesMap = decoded["results"];
         List<Movie> movieModels = moviesMap.map((e) => Movie.fromMap(e)).toList();
 
-        // Filtering the newly loaded Movies, only get un-selected movies
+        // Get List of Movie.id of current [movies] var
+        List<int> alreadyExistedIds = [];
+        movies.forEach((movie) {
+          alreadyExistedIds.add(movie.id);
+        });
+
+        // Filtering the newly loaded Movies, only get un-selected movies, & movies that are not in [movies]
         movieModels.removeWhere((movie) {
-          return filterIds.contains(movie.id);
+          return filterIds.contains(movie.id) || alreadyExistedIds.contains(movie.id);
         });
 
         movies.addAll(movieModels);
