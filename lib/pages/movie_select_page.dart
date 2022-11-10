@@ -69,12 +69,13 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
             ),
             const SizedBox(height: 10),
 
+            /// Show current User's selected genre counts
             Container(
               height: 80,
               width: 350,
               decoration: BoxDecoration(
                 border: Border.all(
-                  width: 2.0,
+                  width: 1.0,
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
