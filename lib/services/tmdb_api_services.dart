@@ -103,7 +103,7 @@ class TmdbApiServices {
   /// Recursive function : get at least 10 movies, via given genre.Ids
   static Future<List<Movie>> getMoviesByGenreIDs({
     required Map<int, int> genreIdsAndCounts,       //Genre.Ids and count
-    List<Movie> movies = const [],                  //Return movies
+    required List<Movie> movies,                  //Return movies
     List<int> filterIds = const [],                 //Filtering selected movie.ids
     int page = 1,                                   //Pagination
   }) async {
@@ -126,12 +126,15 @@ class TmdbApiServices {
         int availablePage = decoded["total_pages"];  //Total page
         List<dynamic> moviesMap = decoded["results"];
         List<Movie> movieModels = moviesMap.map((e) => Movie.fromMap(e)).toList();
-        movies = movieModels;
 
-        // Filtering, only get un-selected movies
-        movies.removeWhere((movie) {
+        // Filtering the newly loaded Movies, only get un-selected movies
+        movieModels.removeWhere((movie) {
           return filterIds.contains(movie.id);
         });
+
+        movies.addAll(movieModels);
+
+        print("Current loaded Movies length: ${movies.length}");
 
         // If API returned result (movies) are less than 10
         if (movies.length < 10) {

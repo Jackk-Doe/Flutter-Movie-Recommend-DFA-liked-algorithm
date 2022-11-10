@@ -41,7 +41,7 @@ class _MovieSelectpageState extends State<MovieSelectpage> {
     //* Generate random movies, based on user interested genre.Ids, filtering with previous selected Movie.Ids
     //* The ApiServices function is guranteed to get atleast 10 movies
     Map<int, int> interestedGenres = provider.interestedGenre;
-    _moviesList = TmdbApiServices.getMoviesByGenreIDs(genreIdsAndCounts: interestedGenres, filterIds: previousSelectedMovieIds);
+    _moviesList = TmdbApiServices.getMoviesByGenreIDs(genreIdsAndCounts: interestedGenres, filterIds: previousSelectedMovieIds, movies: []);
   }
 
   @override
